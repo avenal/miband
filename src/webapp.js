@@ -52,7 +52,7 @@ async function scan() {
       });
 
     document
-      .getElementById("multipleHeartRate")
+      .getElementById("multiHeartRate")
       .addEventListener("click", () => {
         getHMRMultiple(miband, log);
       });
