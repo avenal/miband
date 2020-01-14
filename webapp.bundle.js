@@ -28679,6 +28679,7 @@
 	    document.getElementById("multiHeartRate").addEventListener("click", () => {
 	      test_3(miband$$1, log$1);
 	      data = localStorage.getItem("heart_rate").split(",");
+	      console.log(data);
 	      chart.update();
 	    });
 
