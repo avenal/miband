@@ -50,7 +50,7 @@ async function scan() {
 
     document.getElementById("multiHeartRate").addEventListener("click", () => {
       getHMRMultiple(miband, log);
-      data = localStorage.getItem('heart_rate');
+      data = localStorage.getItem('heart_rate').split(",");
       chart.update();
     });
 
