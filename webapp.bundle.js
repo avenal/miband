@@ -28638,7 +28638,7 @@
 
 	const output = document.querySelector("#output");
 
-	let data = [];
+	let data = localStorage.getItem("heart_rate").split(",");
 
 	function log$1() {
 	  document.querySelector("main").style.display = "block";
@@ -28678,7 +28678,7 @@
 
 	    document.getElementById("multiHeartRate").addEventListener("click", () => {
 	      test_3(miband$$1, log$1);
-	      data = localStorage.getItem('heart_rate').split(",");
+	      data = localStorage.getItem("heart_rate").split(",");
 	      chart.update();
 	    });
 
@@ -28692,7 +28692,6 @@
 	}
 
 	let ctx = document.getElementById("chart").getContext("2d");
-
 
 	let options = {
 	  scales: {
@@ -28710,7 +28709,6 @@
 	  data: data,
 	  options: options
 	});
-
 
 	document.querySelector("#scanBtn").addEventListener("click", scan);
 
