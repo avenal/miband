@@ -10,7 +10,7 @@ const bluetooth = navigator.bluetooth;
 
 const output = document.querySelector("#output");
 
-let data = [];
+let data = localStorage.getItem("heart_rate").split(",");
 
 function log() {
   document.querySelector("main").style.display = "block";
@@ -50,7 +50,7 @@ async function scan() {
 
     document.getElementById("multiHeartRate").addEventListener("click", () => {
       getHMRMultiple(miband, log);
-      data = localStorage.getItem('heart_rate').split(",");
+      data = localStorage.getItem("heart_rate").split(",");
       chart.update();
     });
 
@@ -64,7 +64,6 @@ async function scan() {
 }
 
 let ctx = document.getElementById("chart").getContext("2d");
-
 
 let options = {
   scales: {
@@ -82,6 +81,5 @@ let chart = new Chart(ctx, {
   data: data,
   options: options
 });
-
 
 document.querySelector("#scanBtn").addEventListener("click", scan);
