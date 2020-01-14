@@ -1,7 +1,7 @@
 'use strict';
 
 import MiBand from './miband';
-import test_all from './test';
+import { test_all, getHRMSingle } from './test';
 
 import './styles/index.less';
 
@@ -39,10 +39,13 @@ async function scan() {
     log('Connecting to the device...');
     const server = await device.gatt.connect();
     log('Connected');
-
+    document.getElementById('singleHeartRate').disabled = false;
     let miband = new MiBand(server);
 
     await miband.init();
+    document.getElementById('singleHeartRate').addEventListener("click", () => {
+      getHRMSingle(miband, log);
+    });
 
     await test_all(miband, log);
 
@@ -51,5 +54,5 @@ async function scan() {
   }
 }
 
-document.querySelector('#scanBtn').addEventListener('click', scan)
 
+document.querySelector('#scanBtn').addEventListener('click', scan)

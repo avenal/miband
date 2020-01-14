@@ -9,7 +9,7 @@
     "miband-test": "bin/miband-test.js"
   },
   "scripts": {
-    "start": "ecstatic ./public --host 192.168.0.255 --port 8000",
+    "start": "ecstatic ./public --port 8000",
     "build": "rollup -c ./.rollup.js",
     "watch": "rollup -c ./.rollup.js -w",
     "debug": "node --inspect ./bin/miband-test.js",

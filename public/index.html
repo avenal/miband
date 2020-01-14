@@ -10,24 +10,16 @@
     <link rel="manifest" href="manifest.json">
     <!-- link rel="stylesheet" href="styles.css" -->
 
-    <title>Mi Band 2</title>
+    <title>Mi Band 3 Heart Rate Monitor</title>
   </head>
 
   <body>
-    <a href="https://github.com/vshymanskyy/miband-js">
-      <img class="fork-me" src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png" alt="Fork me on GitHub">
-    </a>
-
     <header>
-        <h1>
-          <a href="https://github.com/vshymanskyy/miband-js">
-            <span class="h1-left">MiBand</span>
-            <span class="h1-right">JS</span>
-          </a>
-        </h1>
-        <button id="scanBtn" class="btn-scan">Scan</button>
+        <button id="scanBtn" class="btn-scan">Szukaj urządzenia</button>
+        <button id="singleHeartRate" disabled class="btn-scan">Pojedynczy pomiar pulsu</button>
+        <button id="multiHeartRate"class="btn-scan">Wielokroty pomiar pulsu (30s)</button>
     </header>
-
+    
     <main style="display: none;">
       <pre id="output"></pre>
     </main>
