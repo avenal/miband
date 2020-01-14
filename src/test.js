@@ -21,7 +21,6 @@ async function test_all(miband, log) {
   // let ped = await miband.getPedometerStats();
   // log("Pedometer:", JSON.stringify(ped));
 
-
   // log("Heart Rate Monitor (single-shot)");
   // log("Result:", await miband.hrmRead());
 
@@ -41,7 +40,18 @@ async function getHRMSingle(miband, log) {
 
 async function getHMRMultiple(miband, log) {
   miband.on("heart_rate", rate => {
-    log("Heart Rate:", rate);
+    log(rate);
+    let existing = localStorage.getItem("heart_rate");
+
+    // If no existing data, create an array
+    // Otherwise, convert the localStorage string to an array
+    existing = existing ? existing.split(",") : [];
+
+    // Add new data to localStorage Array
+    existing.push(rate);
+
+    // Save back to localStorage
+    localStorage.setItem("heart_rate", existing.toString());
   });
   await miband.hrmStart();
 }

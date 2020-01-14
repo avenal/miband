@@ -1,5 +1,6 @@
 "use strict";
 
+import Chart from "chart.js";
 import MiBand from "./miband";
 import { test_all, getHRMSingle, getHMRMultiple, HMRStop } from "./test";
 
@@ -8,6 +9,8 @@ import "./styles/index.less";
 const bluetooth = navigator.bluetooth;
 
 const output = document.querySelector("#output");
+
+let data = [];
 
 function log() {
   document.querySelector("main").style.display = "block";
@@ -45,11 +48,11 @@ async function scan() {
       getHRMSingle(miband, log);
     });
 
-    document
-      .getElementById("multiHeartRate")
-      .addEventListener("click", () => {
-        getHMRMultiple(miband, log);
-      });
+    document.getElementById("multiHeartRate").addEventListener("click", () => {
+      getHMRMultiple(miband, log);
+      data = localStorage.getItem('heart_rate');
+      chart.update();
+    });
 
     document.getElementById("stop").addEventListener("click", () => {
       HMRStop(miband, log);
@@ -59,5 +62,26 @@ async function scan() {
     log("Argh!", error);
   }
 }
+
+let ctx = document.getElementById("chart").getContext("2d");
+
+
+let options = {
+  scales: {
+    yAxes: [
+      {
+        ticks: {
+          reverse: false
+        }
+      }
+    ]
+  }
+};
+
+let chart = new Chart(ctx, {
+  data: data,
+  options: options
+});
+
 
 document.querySelector("#scanBtn").addEventListener("click", scan);
