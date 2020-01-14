@@ -7920,12 +7920,6 @@
                 });
 
                 document
-                  .getElementById("multipleHeartRate")
-                  .addEventListener("click", () => {
-                    test_3(miband$$1, log$1);
-                  });
-
-                document
                   .getElementById("multiHeartRate")
                   .addEventListener("click", () => {
                     test_3(miband$$1, log$1);
