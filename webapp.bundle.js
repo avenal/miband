@@ -7926,7 +7926,7 @@
                   });
 
                 document
-                  .getElementById("multipleHeartRate")
+                  .getElementById("multiHeartRate")
                   .addEventListener("click", () => {
                     test_3(miband$$1, log$1);
                   });
