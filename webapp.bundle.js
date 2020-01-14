@@ -7824,17 +7824,16 @@
             var miband = MiBand;
 
             function delay(ms) {
-              return new Promise(resolve => setTimeout(resolve, ms))
+              return new Promise(resolve => setTimeout(resolve, ms));
             }
 
             async function test_all(miband, log) {
-
               let info = {
-                time:     await miband.getTime(),
-                battery:  await miband.getBatteryInfo(),
-                hw_ver:   await miband.getHwRevision(),
-                sw_ver:   await miband.getSwRevision(),
-                serial:   await miband.getSerial(),
+                time: await miband.getTime(),
+                battery: await miband.getBatteryInfo(),
+                hw_ver: await miband.getHwRevision(),
+                sw_ver: await miband.getSwRevision(),
+                serial: await miband.getSerial()
               };
 
               log(`HW ver: ${info.hw_ver}  SW ver: ${info.sw_ver}`);
@@ -7843,43 +7842,45 @@
               log(`Time: ${info.time.toLocaleString()}`);
 
               let ped = await miband.getPedometerStats();
-              log('Pedometer:', JSON.stringify(ped));
+              log("Pedometer:", JSON.stringify(ped));
 
-              log('Notifications demo...');
-              await miband.showNotification('message');
+              log("Notifications demo...");
+              await miband.showNotification("message");
               await delay(3000);
-              await miband.showNotification('phone');
+              await miband.showNotification("phone");
               await delay(5000);
-              await miband.showNotification('off');
+              await miband.showNotification("off");
 
-              log('Tap MiBand button, quick!');
-              miband.on('button', () => log('Tap detected'));
+              log("Tap MiBand button, quick!");
+              miband.on("button", () => log("Tap detected"));
               try {
                 await miband.waitButton(10000);
               } catch (e) {
-                log('OK, nevermind ;)');
+                log("OK, nevermind ;)");
               }
 
-              log('Heart Rate Monitor (single-shot)');
-              log('Result:', await miband.hrmRead());
+              log("Heart Rate Monitor (single-shot)");
+              log("Result:", await miband.hrmRead());
 
-              log('Heart Rate Monitor (continuous for 30 sec)...');
-              miband.on('heart_rate', (rate) => {
-                log('Heart Rate:', rate);
+              log("Heart Rate Monitor (continuous for 30 sec)...");
+              miband.on("heart_rate", rate => {
+                log("Heart Rate:", rate);
               });
               await miband.hrmStart();
               await delay(30000);
               await miband.hrmStop();
 
-              //log('RAW data (no decoding)...')
-              //miband.rawStart();
-              //await delay(30000);
-              //miband.rawStop();
-
-              log('Finished.');
+              log("Finished.");
             }
 
-            var test = test_all;
+            async function getHRMSingle(miband, log) {
+              log("Heart Rate Monitor (single-shot)");
+              log("Result:", await miband.hrmRead());
+            }
+
+            var test = { test_all, getHRMSingle };
+            var test_1 = test.test_all;
+            var test_2 = test.getHRMSingle;
 
             __$styleInject("html {\n  background: #eee;\n}\nbody {\n  max-width: 960px;\n  width: 80%;\n  box-sizing: border-box;\n  margin: 50px auto;\n  min-height: calc(100vh - 100px);\n  background: #000;\n  box-shadow: 0 0 96px black;\n  border-radius: 16px;\n  border-bottom-left-radius: 0;\n  border-bottom-right-radius: 0;\n  font-family: monospace;\n}\nheader {\n  padding: 4px 16px 0px;\n  background: #333;\n  border-radius: 16px;\n  border-bottom-left-radius: 0;\n  border-bottom-right-radius: 0;\n  display: flex;\n  justify-content: space-between;\n  font-family: \"Arial\";\n}\nmain {\n  background: black;\n  color: white;\n  padding: 4px 16px;\n  overflow-y: auto;\n  max-height: calc(100vh - 164px);\n}\n#output {\n  margin: 0;\n}\nh1 {\n  text-shadow: 1px 1px 0 black;\n  font-size: 28px;\n  margin: 10px 0;\n  cursor: pointer;\n  color: transparent;\n}\nh1:hover .h1-left,\nh1:hover .h1-right {\n  color: #fff;\n}\nh1 .h1-left {\n  color: #A9D96C;\n  transition: 0.25s ease-in-out color;\n}\nh1 .h1-right {\n  margin-left: -6px;\n  color: #41c5f4;\n  transition: 0.25s ease-in-out color;\n}\nh1 a {\n  color: transparent;\n  text-decoration: none;\n}\n.btn-scan {\n  margin: 12px 0;\n  padding: 0 24px;\n  cursor: pointer;\n  background: #A9D96C;\n  border: none;\n  color: white;\n  font-weight: bold;\n  border-radius: 4px;\n  outline: none;\n  transition: 0.25s ease-in-out color;\n}\n.btn-scan:hover {\n  color: black;\n}\n.fork-me {\n  position: fixed;\n  top: 0;\n  right: 0;\n  border: 0;\n  z-index: -1;\n  transform: rotate(90deg);\n}\n");
 
@@ -7917,17 +7918,21 @@
                 log$1('Connecting to the device...');
                 const server = await device.gatt.connect();
                 log$1('Connected');
-
+                document.getElementById('singleHeartRate').disabled = false;
                 let miband$$1 = new miband(server);
 
                 await miband$$1.init();
+                document.getElementById('singleHeartRate').addEventListener("click", () => {
+                  test_2(miband$$1, log$1);
+                });
 
-                await test(miband$$1, log$1);
+                await test_1(miband$$1, log$1);
 
               } catch(error) {
                 log$1('Argh!', error);
               }
             }
+
 
             document.querySelector('#scanBtn').addEventListener('click', scan);
 
