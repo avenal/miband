@@ -22,19 +22,19 @@ async function scan() {
   }
 
   try {
-    log("Requesting Bluetooth Device...");
+    log("Próba połączenia...");
     const device = await bluetooth.requestDevice({
       filters: [{ services: [MiBand.advertisementService] }],
       optionalServices: MiBand.optionalServices
     });
 
     device.addEventListener("gattserverdisconnected", () => {
-      log("Device disconnected");
+      log("Rozłączono");
     });
 
     await device.gatt.disconnect();
 
-    log("Connecting to the device...");
+    log("Łączenie z urządzeniem...");
     const server = await device.gatt.connect();
     log("Connected");
     document.getElementById("singleHeartRate").disabled = false;

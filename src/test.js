@@ -61,11 +61,15 @@ async function getHMRMultiple(miband, log) {
   //   localStorage.setItem("heart_rate", JSON.stringify(existing));
   // });
   // await miband.hrmStart();
+  let btn = document.getElementById("multiHeartRate");
+  btn.disabled = true;
   for(let i = 0; i < num; i++)
   {
     getHRMSingle(miband, log);
     await delay(time*10000);
   }  
+  btn.disabled = false;
+
 }
 async function HMRStop(miband, log) {
   await miband.hrmStop();
