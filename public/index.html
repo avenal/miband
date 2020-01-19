@@ -78,9 +78,9 @@ setInterval(() => {
 
     existing = existing ? JSON.parse(existing) : [];
 
-    existing.push({val: Math.random()*100, date: new Date().toLocaleTimeString()});
+    // existing.push({val: Math.random()*100, date: new Date().toLocaleTimeString()});
 
-    localStorage.setItem("heart_rate", JSON.stringify(existing));
+    // localStorage.setItem("heart_rate", JSON.stringify(existing));
     options.data.datasets[0].data = [];
     options.data.labels = [];
 
