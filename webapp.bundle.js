@@ -7659,7 +7659,7 @@
                 this.hrmTimer = this.hrmTimer || setInterval(() => {
                   debug$1('Pinging HRM');
                   this.char.hrm_ctrl.writeValue(AB([0x16]));
-                },12000);
+                },120000);
               }
 
               async hrmStop() {
@@ -7863,22 +7863,21 @@
 
             async function getHMRMultiple(miband, log) {
               let time = document.getElementById("time").value;
-              setTimeout(() => {
-                miband.on("heart_rate", rate => {
-                  log(rate);
-                  let existing = localStorage.getItem("heart_rate");
 
-                  // If no existing data, create an array
-                  // Otherwise, convert the localStorage string to an array
-                  existing = existing ? JSON.parse(existing) : [];
+              miband.on("heart_rate", rate => {
+                log(rate);
+                let existing = localStorage.getItem("heart_rate");
 
-                  // Add new data to localStorage Array
-                  existing.push({ val: rate, date: new Date().toLocaleTimeString() });
+                // If no existing data, create an array
+                // Otherwise, convert the localStorage string to an array
+                existing = existing ? JSON.parse(existing) : [];
 
-                  // Save back to localStorage
-                  localStorage.setItem("heart_rate", JSON.stringify(existing));
-                });
-              }, time*10000);
+                // Add new data to localStorage Array
+                existing.push({ val: rate, date: new Date().toLocaleTimeString() });
+
+                // Save back to localStorage
+                localStorage.setItem("heart_rate", JSON.stringify(existing));
+              });
               await miband.hrmStart();
             }
             async function HMRStop(miband, log) {
