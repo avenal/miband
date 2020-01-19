@@ -58,7 +58,7 @@ async function getHMRMultiple(miband, log) {
   // await miband.hrmStart();
   for(let i = 0; i<100; i++)
   {
-    await miband.hrmRead()
+    getHRMSingle(miband, log);
     await delay(time*10000);
   }  
 }
