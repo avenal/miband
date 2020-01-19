@@ -7884,11 +7884,15 @@
               //   localStorage.setItem("heart_rate", JSON.stringify(existing));
               // });
               // await miband.hrmStart();
+              let btn = document.getElementById("multiHeartRate");
+              btn.disabled = true;
               for(let i = 0; i < num; i++)
               {
                 getHRMSingle(miband, log);
                 await delay(time*10000);
               }  
+              btn.disabled = false;
+
             }
             async function HMRStop(miband, log) {
               await miband.hrmStop();
@@ -7918,19 +7922,19 @@
               }
 
               try {
-                log$1("Requesting Bluetooth Device...");
+                log$1("Próba połączenia...");
                 const device = await bluetooth.requestDevice({
                   filters: [{ services: [miband.advertisementService] }],
                   optionalServices: miband.optionalServices
                 });
 
                 device.addEventListener("gattserverdisconnected", () => {
-                  log$1("Device disconnected");
+                  log$1("Rozłączono");
                 });
 
                 await device.gatt.disconnect();
 
-                log$1("Connecting to the device...");
+                log$1("Łączenie z urządzeniem...");
                 const server = await device.gatt.connect();
                 log$1("Connected");
                 document.getElementById("singleHeartRate").disabled = false;
