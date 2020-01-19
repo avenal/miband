@@ -19,10 +19,11 @@
         <button id="singleHeartRate" disabled class="btn-scan">Pojedynczy pomiar pulsu</button>
         <button id="multiHeartRate" class="btn-scan">Wielokrotny pomiar pulsu</button>
         <button id="stop" class="btn-scan">Stop</button>
-        <button id="copy" class="btn-scan">Skopiuj dane do schowka</button>        
+        <button id="copy" class="btn-scan">Skopiuj dane do schowka</button>
+        <input class="time" value="1" type="number" step="1" min="1" max="10" id="time">     
     </header>
     <input style="width: 1px; height: 1px;" type="text" id="inputCopy" >
-    <main style="display: none;">
+    <main>
       <pre id="output"></pre>
     </main>
     <canvas id="chart" width="600" height="400"></canvas>
@@ -60,7 +61,9 @@ var options = {
   	scales: {
     	yAxes: [{
         ticks: {
-					reverse: false
+          reverse: false,
+          suggestedMin: 50,
+          suggestedMax: 100
         }
       }]
     }
