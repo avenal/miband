@@ -15,25 +15,85 @@
 
   <body>
     <header>
-        <button id="scanBtn" class="btn-scan">Szukaj urządzenia</button>
+        <button id="scanBtn" class="btn-scan">Szuaj urządzenia</button>
         <button id="singleHeartRate" disabled class="btn-scan">Pojedynczy pomiar pulsu</button>
-        <button id="multiHeartRate"class="btn-scan">Wielokrotny pomiar pulsu</button>
-        <button id="stop"class="btn-scan">Stop</button>
-
+        <button id="multiHeartRate" class="btn-scan">Wielokrotny pomiar pulsu</button>
+        <button id="stop" class="btn-scan">Stop</button>
+        <button id="copy" class="btn-scan">Skopiuj dane do schowka</button>        
     </header>
-    
+    <input style="width: 1px; height: 1px;" type="text" id="inputCopy" >
     <main style="display: none;">
       <pre id="output"></pre>
     </main>
     <canvas id="chart" width="600" height="400"></canvas>
 
     <script src="webapp.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 
     <script>
       // Install service worker - for offline support (not working properly, so disabled)
       /*if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('serviceworker.js');
       }*/
+      document.getElementById('copy').addEventListener('click', copyData);
+      function copyData() {
+       let copyText = document.getElementById('inputCopy');
+       copyText.value = JSON.stringify(localStorage.getItem('heart_rate'));
+        copyText.select();
+        copyText.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        console.log('skopiowano');
+      }
+var options = {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [
+	    {
+	      label: '# of Votes',
+	      data: [],
+      	borderWidth: 1
+    	}
+		]
+  },
+  options: {
+  	scales: {
+    	yAxes: [{
+        ticks: {
+					reverse: false
+        }
+      }]
+    }
+  }
+}
+
+window.onload = function() {
+  let ctx = document.getElementById("chart").getContext("2d");
+  window.myLine = new Chart(ctx, options);
+};
+
+setInterval(() => {
+  if (options.data.datasets.length > 0) {
+    let existing = localStorage.getItem("heart_rate");
+
+    existing = existing ? JSON.parse(existing) : [];
+
+    // existing.push({val: Math.random()*100, date: new Date().toLocaleTimeString()});
+
+    // localStorage.setItem("heart_rate", JSON.stringify(existing));
+    options.data.datasets[0].data = [];
+    options.data.labels = [];
+
+    existing.splice(-5).map(item => {
+      options.data.datasets[0].data.push(item.val);
+      options.data.labels.push(item.date);  
+    })
+    console.log(localStorage.getItem("heart_rate").split(","));
+    console.log(options.data.datasets[0].data);
+    window.myLine.update(options);
+  }
+}, 5000);
+
     </script>
   </body>
 </html>
