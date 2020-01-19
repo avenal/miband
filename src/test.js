@@ -45,13 +45,13 @@ async function getHMRMultiple(miband, log) {
 
     // If no existing data, create an array
     // Otherwise, convert the localStorage string to an array
-    existing = existing ? existing.split(",") : [];
+    existing = existing ? JSON.parse(existing) : [];
 
     // Add new data to localStorage Array
-    existing.push(rate);
+    existing.push({val: rate, date: new Date().toLocaleTimeString()});
 
     // Save back to localStorage
-    localStorage.setItem("heart_rate", existing.toString());
+    localStorage.setItem("heart_rate", JSON.stringify(existing));
   });
   await miband.hrmStart();
 }
