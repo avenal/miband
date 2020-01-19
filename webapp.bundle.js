@@ -7659,7 +7659,7 @@
                 this.hrmTimer = this.hrmTimer || setInterval(() => {
                   debug$1('Pinging HRM');
                   this.char.hrm_ctrl.writeValue(AB([0x16]));
-                },120000);
+                },12000);
               }
 
               async hrmStop() {
@@ -7881,7 +7881,7 @@
               // await miband.hrmStart();
               for(let i = 0; i<100; i++)
               {
-                await miband.hrmRead();
+                getHRMSingle(miband, log);
                 await delay(time*10000);
               }  
             }
