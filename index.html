@@ -20,8 +20,10 @@
         <button id="multiHeartRate" class="btn-scan">Wielokrotny pomiar pulsu</button>
         <button id="stop" class="btn-scan">Stop</button>
         <button id="copy" class="btn-scan">Skopiuj dane do schowka</button>
-        <input class="time" value="1" type="number" step="1" min="1" max="10" id="time">     
-        <input class="time" value="1" type="number" step="1" min="1" max="10" id="num">         
+        <label for="time">Częstotliwość pomiarów (min)</label>
+        <input class="time" value="1" type="number" step="1" min="1" max="20" id="time">
+        <label for="time">Liczba pomiarów</label>
+        <input class="time" value="1" type="number" step="1" min="1" max="100" id="num">         
       </header>
     <input style="width: 1px; height: 1px;" type="text" id="inputCopy" >
     <main>
@@ -52,7 +54,7 @@ var options = {
     labels: [],
     datasets: [
 	    {
-	      label: '# of Votes',
+	      label: '',
 	      data: [],
       	borderWidth: 1
     	}

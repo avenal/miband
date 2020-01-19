@@ -7889,7 +7889,7 @@
               for(let i = 0; i < num; i++)
               {
                 getHRMSingle(miband, log);
-                await delay(time*10000);
+                await delay(time*60000);
               }  
               btn.disabled = false;
 
