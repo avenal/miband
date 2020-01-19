@@ -195,7 +195,7 @@ class MiBand extends EventEmitter {
     this.hrmTimer = this.hrmTimer || setInterval(() => {
       debug('Pinging HRM')
       this.char.hrm_ctrl.writeValue(AB([0x16]))
-    },12000);
+    },120000);
   }
 
   async hrmStop() {
