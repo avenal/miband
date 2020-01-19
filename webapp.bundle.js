@@ -7862,20 +7862,23 @@
             }
 
             async function getHMRMultiple(miband, log) {
-              miband.on("heart_rate", rate => {
-                log(rate);
-                let existing = localStorage.getItem("heart_rate");
+              let time = document.getElementById("time").value;
+              setTimeout(() => {
+                miband.on("heart_rate", rate => {
+                  log(rate);
+                  let existing = localStorage.getItem("heart_rate");
 
-                // If no existing data, create an array
-                // Otherwise, convert the localStorage string to an array
-                existing = existing ? JSON.parse(existing) : [];
+                  // If no existing data, create an array
+                  // Otherwise, convert the localStorage string to an array
+                  existing = existing ? JSON.parse(existing) : [];
 
-                // Add new data to localStorage Array
-                existing.push({val: rate, date: new Date().toLocaleTimeString()});
+                  // Add new data to localStorage Array
+                  existing.push({ val: rate, date: new Date().toLocaleTimeString() });
 
-                // Save back to localStorage
-                localStorage.setItem("heart_rate", JSON.stringify(existing));
-              });
+                  // Save back to localStorage
+                  localStorage.setItem("heart_rate", JSON.stringify(existing));
+                });
+              }, time*10000);
               await miband.hrmStart();
             }
             async function HMRStop(miband, log) {
@@ -7887,7 +7890,7 @@
             var test_3 = test.getHMRMultiple;
             var test_4 = test.HMRStop;
 
-            __$styleInject("html {\n  background: #eee;\n}\n");
+            __$styleInject("html {\n  background: #eee;\n}\n.time {\n  width: 100px;\n  height: 20px;\n  border: 1px solid orange;\n  border-radius: 10px;\n  margin-left: 15px;\n}\nbody {\n  height: 100vh;\n  margin: 0;\n}\nmain {\n  overflow: scroll;\n  height: 150px;\n  width: 100%;\n}\nbutton {\n  background-color: orange;\n  color: black;\n  border: none;\n  margin: 15px 10px 15px 10px;\n  padding: 10px 15px 10px 15px;\n  transition: all 0.4s ease-in-out;\n  width: 200px;\n  border-radius: 10px;\n}\nbutton:hover {\n  cursor: pointer;\n  background-color: #4e1900;\n  color: white;\n}\n");
 
             const bluetooth = navigator.bluetooth;
 
