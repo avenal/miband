@@ -34,13 +34,18 @@ async function test_all(miband, log) {
 }
 
 async function getHRMSingle(miband, log) {
-  log("Heart Rate Monitor (single-shot)");
-  log("Result:", await miband.hrmRead());
+  let existing = localStorage.getItem("heart_rate");
+  let value = await miband.hrmRead();
+  existing = existing ? JSON.parse(existing) : [];
+  existing.push({ val: value, date: new Date().toLocaleTimeString() });
+  localStorage.setItem("heart_rate", JSON.stringify(existing));
+  log("Pomiar pulsu");
+  log("Wynik:", value);
 }
 
 async function getHMRMultiple(miband, log) {
   let time = document.getElementById("time").value;
-
+  let num = document.getElementById("num").value;
   // miband.on("heart_rate", rate => {
   //   log(rate);
   //   let existing = localStorage.getItem("heart_rate");
@@ -56,7 +61,7 @@ async function getHMRMultiple(miband, log) {
   //   localStorage.setItem("heart_rate", JSON.stringify(existing));
   // });
   // await miband.hrmStart();
-  for(let i = 0; i<100; i++)
+  for(let i = 0; i < num; i++)
   {
     getHRMSingle(miband, log);
     await delay(time*10000);
